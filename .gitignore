@@ -1,0 +1,4 @@
+# Ignore local files for testing.
+*.json
+*.yml
+*.yaml
