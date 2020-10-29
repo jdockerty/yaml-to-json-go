@@ -21,11 +21,12 @@ import (
 // 	}
 // }
 
-func cleanYaml(yaml map[interface{}]interface{}) map[string]interface{} {
+// Allows YAML to be encoded into JSON format easily.
+func cleanYaml(inputYaml map[interface{}]interface{}) map[string]interface{} {
 
 	cleanYamlMapping := make(map[string]interface{})
 
-	for key, value := range yaml {
+	for key, value := range inputYaml {
 
 		// Type assertion on the key within the yaml, key will be type of interface{}
 		// so it must be asserted to ensure it is string.
