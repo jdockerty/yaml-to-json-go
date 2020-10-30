@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"github.com/jdockerty/yaml-to-json-go/convert"
 	"testing"
 )
 
@@ -19,8 +20,8 @@ func TestCanReadUnstructuredYamlFile(t *testing.T) {
 	// 	parents:
 	// 		- Sally
 	// 		- Robert
-
-	yamlData, err := unmarshalYamlFile(yamlFile)
+	
+	yamlData, err := convert.UnmarshalYAMLFile(yamlFile)
 	assert.Nil(err)
 
 	expectedYaml := map[interface{}]interface{}{
@@ -48,7 +49,7 @@ func TestOutputYamlIsCorrect(t *testing.T) {
 	// 		- Sally
 	// 		- Robert
 
-	yamlData, err := unmarshalYamlFile(yamlFile)
+	yamlData, err := convert.UnmarshalYAMLFile(yamlFile)
 	assert.Nil(err)
 
 	incorrectYaml := map[interface{}]interface{}{
@@ -76,10 +77,10 @@ func TestConvertYamlToJSON(t *testing.T) {
 	// 		- Sally
 	// 		- Robert
 
-	yamlData, err := unmarshalYamlFile(yamlFile)
+	yamlData, err := convert.UnmarshalYAMLFile(yamlFile)
 	assert.Nil(err)
 
-	jsonOutput, err := convertYamlToJSON(yamlData)
+	jsonOutput, err := convert.YAMLToJSON(yamlData)
 	assert.Nil(err)
 
 	t.Logf("%s\n", jsonOutput)
