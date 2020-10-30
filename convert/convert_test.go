@@ -1,16 +1,16 @@
-package main
+package convert
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
+	// "github.com/jdockerty/yaml-to-json-go/convert"
 	"testing"
 )
 
-func TestCanReadUnstructuredYamlFile(t *testing.T) {
+var localYAMLFile string
 
-	assert := assert.New(t)
 
-	yamlFile := "test.yml"
+func init() {
+	localYAMLFile = "test.yml"
 	// This file contains
 	//
 	// name: Jimmy
@@ -19,8 +19,13 @@ func TestCanReadUnstructuredYamlFile(t *testing.T) {
 	// 	parents:
 	// 		- Sally
 	// 		- Robert
+}
 
-	yamlData, err := unmarshalYamlFile(yamlFile)
+func TestCanReadUnstructuredYamlFile(t *testing.T) {
+
+	assert := assert.New(t)
+
+	yamlData, err := UnmarshalYAMLFile(localYAMLFile)
 	assert.Nil(err)
 
 	expectedYaml := map[interface{}]interface{}{
@@ -38,17 +43,7 @@ func TestOutputYamlIsCorrect(t *testing.T) {
 
 	assert := assert.New(t)
 
-	yamlFile := "test.yml"
-	// This file contains
-	//
-	// name: Jimmy
-	// age: 29
-	// relationships:
-	// 	parents:
-	// 		- Sally
-	// 		- Robert
-
-	yamlData, err := unmarshalYamlFile(yamlFile)
+	yamlData, err := UnmarshalYAMLFile(localYAMLFile)
 	assert.Nil(err)
 
 	incorrectYaml := map[interface{}]interface{}{
@@ -63,27 +58,26 @@ func TestOutputYamlIsCorrect(t *testing.T) {
 
 }
 
+func TestFullConversionIsCorrect(t *testing.T) {
+	assert := assert.New(t)
+
+	jsonData, err := FullYAMLToJSON(localYAMLFile)
+	assert.Nil(err)
+
+	var expectedType []byte
+	assert.IsType(expectedType, jsonData)
+}
+
 func TestConvertYamlToJSON(t *testing.T) {
 	assert := assert.New(t)
 
-	yamlFile := "test.yml"
-	// This file contains
-	//
-	// name: Jimmy
-	// age: 29
-	// relationships:
-	// 	parents:
-	// 		- Sally
-	// 		- Robert
-
-	yamlData, err := unmarshalYamlFile(yamlFile)
+	yamlData, err := UnmarshalYAMLFile(localYAMLFile)
 	assert.Nil(err)
 
-	jsonOutput, err := convertYamlToJSON(yamlData)
+	jsonOutput, err := YAMLToJSON(yamlData)
 	assert.Nil(err)
 
 	t.Logf("%s\n", jsonOutput)
-	fmt.Println(jsonOutput)
 	// Output:{
 	// "name": "Jimmy",
 	// "age": 29,

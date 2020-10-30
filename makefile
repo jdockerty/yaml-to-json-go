@@ -1,0 +1,4 @@
+
+
+format:
+	go fmt ./...
