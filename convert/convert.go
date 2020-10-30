@@ -28,8 +28,6 @@ func UnmarshalYAMLFile(filePath string) (map[interface{}]interface{}, error) {
 
 	err = yaml.Unmarshal(fileData, &yamlData)
 
-	// cleanedYaml := cleanYaml(unstructuredYAML)
-
 	return yamlData, nil
 
 }
@@ -44,7 +42,6 @@ func YAMLToJSON(yamlData map[interface{}]interface{}) ([]byte, error) {
 		log.Printf("error converting yaml to json.\n%s", err.Error())
 		return nil, err
 	}
-	log.Println(string(output))
 
 	return output, nil
 }
@@ -71,4 +68,21 @@ func cleanYaml(yamlData map[interface{}]interface{}) map[string]interface{} {
 	}
 
 	return cleanYamlMapping
+}
+
+// FullYAMLToJSON is a wrapper function around the other underlying functions
+// for ease of use. Simply, a file is specified and the conversion is handled internally.
+func FullYAMLToJSON(filePath string) ([]byte, error) {
+
+	yamlData, err := UnmarshalYAMLFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+
+	jsonData, err := YAMLToJSON(yamlData)
+	if err != nil {
+		return nil, err
+	}
+
+	return jsonData, nil
 }
