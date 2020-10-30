@@ -9,17 +9,6 @@ import (
 
 )
 
-// func inboundYamlHandler(s string) {
-
-// 	if ( strings.Contains(s, ".json") || strings.Contains(s, ".yaml") || strings.Contains(s, ".yml") ) {
-// 		fmt.Println("file.")
-// 		unmarshalYamlFile(s)
-// 	} else {
-
-// 	}
-// }
-
-
 
 
 
