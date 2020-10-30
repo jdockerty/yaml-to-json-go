@@ -88,7 +88,6 @@ func main() {
 
 	_, _ = convertYamlToJSON(y)
 
-
 	// for k, v := range y {
 	// 	log.Printf("key:%s, value:%s, key-type: %T, value-type: %T", k, v, k, v)
 	// }
