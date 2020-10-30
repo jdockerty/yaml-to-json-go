@@ -1,13 +1,11 @@
-package convert
+package conversion
 
 import (
 	"github.com/stretchr/testify/assert"
-	// "github.com/jdockerty/yaml-to-json-go/convert"
 	"testing"
 )
 
 var localYAMLFile string
-
 
 func init() {
 	localYAMLFile = "test.yml"
