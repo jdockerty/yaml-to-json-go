@@ -70,33 +70,44 @@ func fileExt(file string) string {
 func runConvert(args []string) error {
 	sourceFile, targetFile := args[0], args[1]
 
+	err := createOutputFile(targetFile)
+	if err != nil {
+		return err
+	}
+
 	if fileType := fileExt(sourceFile); fileType == ".yml" || fileType == ".yaml" {
 
 		jsonData, err := conversion.YAMLToJSONFull(sourceFile)
 		if err != nil {
 			return err
 		}
-		err = createOutputFile(targetFile)
+		
+		err = writeToFile(jsonData, targetFile)
 		if err != nil {
 			return err
 		}
 
-		writeToFile(jsonData, targetFile)
-		if err != nil {
-			return err
-		}
+		fmt.Printf("Converting %s to %s\n", sourceFile, targetFile)
 
-		fmt.Printf("Converting %s into %s\n", sourceFile, targetFile)
-		fmt.Println("YAML")
 	} else if fileType == ".json" {
-		fmt.Printf("Converting %s into %s\n", sourceFile, targetFile)
-		fmt.Println("JSON")
+
+		yamlData, err := conversion.JSONToYAMLFull(sourceFile)
+		if err != nil {
+			return err
+		}
+
+		err = writeToFile(yamlData, targetFile)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("Converting %s to %s\n", sourceFile, targetFile)
+
 	} else {
 		return fmt.Errorf("only .yml, .yaml, or .json file extensions are supported")
 	}
 
 	return nil
-	
+
 }
 
 func writeToFile(data []byte, file string) error {
