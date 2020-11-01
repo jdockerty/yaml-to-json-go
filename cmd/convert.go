@@ -28,14 +28,64 @@ This assumes that you have the first file specified at the location specified, t
 	RunE: runConvertCmd,
 }
 
+// PrintFlag is the --print or -p flag to print the output to the terminal, rather than writing to a file.
+var PrintFlag bool
+
+func init() {
+	rootCmd.AddCommand(convertCmd)
+	// Here you will define your flags and configuration settings.
+
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	// convertCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+	// convertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	convertCmd.Flags().BoolVarP(&PrintFlag, "print", "p", false, "print the output to terminal, instead of writing to a target file.")
+}
+
 func runConvertCmd(cmd *cobra.Command, args []string) error {
 
+	if PrintFlag {
+
+		if len(args) == 1 {
+			return runConvertPrintFlag(args[0])
+		} else {
+			return fmt.Errorf("only a single file should be specific with the --print flag")
+		}
+	}
 	if len(args) != 2 {
 		return errors.New("you must only specify 2 files")
 	}
 
 	return runConvert(args)
 
+}
+
+func runConvertPrintFlag(file string) error {
+
+	if fileType := fileExt(file); fileType == ".yaml" || fileType == ".yml" {
+
+		jsonOutput, err := conversion.YAMLToJSONFull(file)
+		if err != nil {
+			return err
+		}
+
+		fmt.Printf("%s\n", string(jsonOutput))
+	} else if fileType == ".json" {
+
+		yamlOutput, err := conversion.JSONToYAMLFull(file)
+		if err != nil {
+			return err
+		}
+
+		fmt.Printf("%s\n", string(yamlOutput))
+	} else {
+		return fmt.Errorf("only .yaml, .yml, or .json file extensions are supported")
+	}
+
+	return nil
 }
 
 func createOutputFile(f string) error {
@@ -103,17 +153,4 @@ func writeToFile(data []byte, file string) error {
 	}
 
 	return nil
-}
-
-func init() {
-	rootCmd.AddCommand(convertCmd)
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// convertCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// convertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
