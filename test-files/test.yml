@@ -1,3 +1,4 @@
+# Example YAML file for testing purposes, used in reading/writing files.
 name: Jimmy
 age: 29
 relationships:
