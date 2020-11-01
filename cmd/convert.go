@@ -67,10 +67,7 @@ func createOutputFile(f string) error {
 func fileExts(fileOne, fileTwo string) []string {
 	var extensions []string
 
-	extensionOne := filepath.Ext(fileOne)
-	extensionTwo := filepath.Ext(fileTwo)
-
-	extensions = append(extensions, extensionOne, extensionTwo)
+	extensions = append(extensions, filepath.Ext(fileOne), filepath.Ext(fileTwo))
 
 	return extensions
 }
