@@ -117,6 +117,16 @@ func TestFullYAMLConversionIsCorrect(t *testing.T) {
 	assert.IsType(expectedType, jsonData)
 }
 
+func TestFullJSONConversionIsCorrect(t *testing.T) {
+	assert := assert.New(t)
+
+	yamlOutput, err := JSONToYAMLFull(localJSONFile)
+	assert.Nil(err)
+
+	var expectedType []byte
+	assert.IsType(expectedType, yamlOutput)
+}
+
 func TestConvertYAMLToJSON(t *testing.T) {
 	assert := assert.New(t)
 
