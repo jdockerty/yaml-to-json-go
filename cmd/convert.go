@@ -18,11 +18,11 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"github.com/spf13/cobra"
-	"path/filepath"
-	"os"
-	"io/ioutil"
 	"github.com/jdockerty/yaml-to-json-go/conversion"
+	"github.com/spf13/cobra"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 )
 
 // convertCmd represents the convert command
@@ -53,9 +53,8 @@ func runConvertCmd(cmd *cobra.Command, args []string) error {
 
 }
 
-
 func createOutputFile(f string) error {
-	
+
 	_, err := os.Create(f)
 	if err != nil {
 		return err
@@ -70,14 +69,34 @@ func fileExt(file string) string {
 
 func runConvert(args []string) error {
 	sourceFile, targetFile := args[0], args[1]
-	// file
-	jsonData, _ := conversion.YAMLToJSONFull(sourceFile)
-	createOutputFile(targetFile)
-	writeToFile(jsonData, targetFile)
-	fmt.Printf("Converting %s into %s\n", sourceFile, targetFile)
-	fmt.Println(jsonData)
+
+	if fileType := fileExt(sourceFile); fileType == ".yml" || fileType == ".yaml" {
+
+		jsonData, err := conversion.YAMLToJSONFull(sourceFile)
+		if err != nil {
+			return err
+		}
+		err = createOutputFile(targetFile)
+		if err != nil {
+			return err
+		}
+
+		writeToFile(jsonData, targetFile)
+		if err != nil {
+			return err
+		}
+
+		fmt.Printf("Converting %s into %s\n", sourceFile, targetFile)
+		fmt.Println("YAML")
+	} else if fileType == ".json" {
+		fmt.Printf("Converting %s into %s\n", sourceFile, targetFile)
+		fmt.Println("JSON")
+	} else {
+		return fmt.Errorf("only .yml, .yaml, or .json file extensions are supported")
+	}
 
 	return nil
+	
 }
 
 func writeToFile(data []byte, file string) error {
