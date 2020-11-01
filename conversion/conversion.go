@@ -1,29 +1,27 @@
 package conversion
 
 import (
+	"fmt"
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"os"
 
 	"gopkg.in/yaml.v2"
 )
 
-// UnmarshalYAMLFile will return a YAML configuration file in it's raw form.
+// UnmarshalYAMLFile will return a YAML configuration file in it's raw Golang form.
 func UnmarshalYAMLFile(filePath string) (map[interface{}]interface{}, error) {
 
 	yamlData := make(map[interface{}]interface{})
 
 	file, err := os.Open(filePath)
 	if err != nil {
-		log.Printf("error when opening YAML file.\n%s", err.Error())
-		return nil, err
+		return nil, fmt.Errorf("error when opening YAML file: %s", err.Error())
 	}
 
 	fileData, err := ioutil.ReadAll(file)
 	if err != nil {
-		log.Printf("error reading file.\n%s", err.Error())
-		return nil, err
+		return nil, fmt.Errorf("error reading YAML file: %s", err.Error())
 	}
 
 	err = yaml.Unmarshal(fileData, &yamlData)
@@ -32,15 +30,46 @@ func UnmarshalYAMLFile(filePath string) (map[interface{}]interface{}, error) {
 
 }
 
-// YAMLToJSON will convert raw YAML into a JSON encoded byte array.
+// UnmarshalJSONFile will return a JSON file in it's raw Golang form.
+func UnmarshalJSONFile(filePath string) (map[string]interface{}, error) {
+
+	var jsonData map[string]interface{}
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("error when opening JSON file: %s", err.Error())
+	}
+
+	fileData, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, fmt.Errorf("error when opening JSON file: %s", err.Error())
+	}
+
+	json.Unmarshal(fileData, &jsonData)
+
+
+	return jsonData, nil
+}
+
+// JSONToYAML will convert raw JSON into a byte array ready to be written to a file.
+func JSONToYAML(jsonData map[string]interface{}) ([]byte, error) {
+
+	output, err := yaml.Marshal(jsonData)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling YAML: %s", err.Error())
+	}
+
+	return output, nil
+}
+
+// YAMLToJSON will convert raw YAML into a JSON encoded byte array, this is ready to be written to a file.
 func YAMLToJSON(yamlData map[interface{}]interface{}) ([]byte, error) {
 
 	cleanedYaml := cleanYaml(yamlData)
 
 	output, err := json.MarshalIndent(cleanedYaml, "", "\t")
 	if err != nil {
-		log.Printf("error converting yaml to json.\n%s", err.Error())
-		return nil, err
+		return nil, fmt.Errorf("error converting yaml to json: %s", err.Error())
 	}
 
 	return output, nil
