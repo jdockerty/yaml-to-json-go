@@ -77,7 +77,7 @@ func fileExts(fileOne, fileTwo string) []string {
 
 func runConvert(args []string) error {
 	sourceFile, targetFile := args[0], args[1]
-	jsonData, _ := conversion.FullYAMLToJSON(sourceFile)
+	jsonData, _ := conversion.YAMLToJSONFull(sourceFile)
 	createOutputFile(targetFile)
 	writeToFile(jsonData, targetFile)
 	fmt.Printf("Converting %s into %s\n", sourceFile, targetFile)
