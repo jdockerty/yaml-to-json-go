@@ -19,7 +19,10 @@ import (
 	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
-	// "path/filepath"
+	"path/filepath"
+	"os"
+	"io/ioutil"
+	"github.com/jdockerty/yaml-to-json-go/conversion"
 )
 
 // convertCmd represents the convert command
@@ -37,16 +40,60 @@ This would convert the YAML file into JSON, since the YAML file is placed first.
 	yamltojson convert output.json myConfig.yml
 
 This assumes that you have the first file specified at the location specified, the second file will be created with the conversion in the current directory.`,
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: runConvertCmd,
+}
 
-		if len(args) != 2 {
-			return errors.New("you must only specify 2 files")
-		}
+func runConvertCmd(cmd *cobra.Command, args []string) error {
 
-		sourceFile, targetFile := args[0], args[1]
-		fmt.Printf("Converting %s into %s\n", sourceFile, targetFile)
-		return nil
-	},
+	if len(args) != 2 {
+		return errors.New("you must only specify 2 files")
+	}
+
+	return runConvert(args)
+
+}
+
+
+func createOutputFile(f string) error {
+	
+	_, err := os.Create(f)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func fileExts(fileOne, fileTwo string) []string {
+	var extensions []string
+
+	extensionOne := filepath.Ext(fileOne)
+	extensionTwo := filepath.Ext(fileTwo)
+
+	extensions = append(extensions, extensionOne, extensionTwo)
+
+	return extensions
+}
+
+func runConvert(args []string) error {
+	sourceFile, targetFile := args[0], args[1]
+	jsonData, _ := conversion.FullYAMLToJSON(sourceFile)
+	createOutputFile(targetFile)
+	writeToFile(jsonData, targetFile)
+	fmt.Printf("Converting %s into %s\n", sourceFile, targetFile)
+	fmt.Println(jsonData)
+
+	return nil
+}
+
+func writeToFile(data []byte, file string) error {
+
+	err := ioutil.WriteFile(file, data, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func init() {
