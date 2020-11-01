@@ -1,0 +1,10 @@
+{
+	"age": 29,
+	"name": "Jimmy",
+	"relationships": {
+		"parents": [
+			"Sally",
+			"Robert"
+		]
+	}
+}

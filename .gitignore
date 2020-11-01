@@ -2,3 +2,6 @@
 *.json
 *.yml
 *.yaml
+
+# Ignore binary file.
+yamltojson
