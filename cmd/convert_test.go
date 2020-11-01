@@ -62,14 +62,3 @@ func TestWriteDataToFile(t *testing.T) {
 	t.Logf("data written to %s", outputFile)
 }
 
-// func TestCanReadPassedFile(t *testing.T) {
-// 	assert := assert.New(t)
-
-// 	myYAMLFile := "../conversion/test.yml"
-
-// 	data, err := readFileInArgs(myYAMLFile)
-// 	assert.Nil(err)
-
-// 	assert.IsType([]byte, data)
-
-// }
