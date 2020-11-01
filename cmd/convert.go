@@ -64,16 +64,13 @@ func createOutputFile(f string) error {
 	return nil
 }
 
-func fileExts(fileOne, fileTwo string) []string {
-	var extensions []string
-
-	extensions = append(extensions, filepath.Ext(fileOne), filepath.Ext(fileTwo))
-
-	return extensions
+func fileExt(file string) string {
+	return filepath.Ext(file)
 }
 
 func runConvert(args []string) error {
 	sourceFile, targetFile := args[0], args[1]
+	// file
 	jsonData, _ := conversion.YAMLToJSONFull(sourceFile)
 	createOutputFile(targetFile)
 	writeToFile(jsonData, targetFile)
