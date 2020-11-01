@@ -108,10 +108,27 @@ func YAMLToJSONFull(filePath string) ([]byte, error) {
 		return nil, err
 	}
 
-	jsonData, err := YAMLToJSON(yamlData)
+	jsonOutput, err := YAMLToJSON(yamlData)
 	if err != nil {
 		return nil, err
 	}
 
-	return jsonData, nil
+	return jsonOutput, nil
+}
+
+// JSONToYAMLFull is a wrapper function around the other underlying functions
+// for ease of use. Simply, a file is specified and the conversion is handled internally.
+func JSONToYAMLFull(filePath string) ([]byte, error) {
+
+	jsonData, err := UnmarshalJSONFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+
+	yamlOutput, err := JSONToYAML(jsonData)
+	if err != nil {
+		return nil, err
+	}
+
+	return yamlOutput, nil
 }
