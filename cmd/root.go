@@ -14,16 +14,17 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "yamltojson",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "A simple CLI tool to convert YAML to JSON or JSON to YAML",
+	Long: `yamltojson lets you easily convert a YAML file to a JSON file or the other way. For example:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	yamltojson convert path/to/source_file path/to/write/output_file
+	
+	This lets you convert between JSON or YAML, depending on the file extension provided in the source file.
+
+	yamltojson convert -p path/to/file.json | .yaml | .yml
+	
+	Allows you to print the output to the relevant corresponding source file, without writing to another.
+	Specifying a .json file would convert print the YAML, whereas a source file of .yml or .yaml would print relevant JSON.`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
