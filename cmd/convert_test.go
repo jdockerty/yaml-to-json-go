@@ -1,26 +1,77 @@
 package cmd
 
 import (
-	// "github.com/stretchr/testify/assert"
-	"github.com/google/go-cmdtest"
+	"github.com/jdockerty/yaml-to-json-go/conversion"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestShouldCreateJSONFile(t *testing.T) {
 
+	assert := assert.New(t)
+
+	jsonFileToCreate := "../test-files/output.json"
+
+	err := createOutputFile(jsonFileToCreate)
+	assert.Nil(err)
+
+
+	assert.FileExists(jsonFileToCreate)
+	t.Logf("file created.\n")
+
 }
 
 func TestShouldCreateYAMLFile(t *testing.T) {
 
+	assert := assert.New(t)
+
+	yamlFileToCreate := "../test-files/output.yml"
+
+	err := createOutputFile(yamlFileToCreate)
+	assert.Nil(err)
+
+
+	assert.FileExists(yamlFileToCreate)
+	t.Logf("file created.\n")
+
 }
 
-func TestCanOpenPassedFile(t *testing.T) {
-	// assert := assert.New(t)
+func TestCorrectFileExtensions(t *testing.T) {
+	yamlFile := "../test-files/test.yml"
+	jsonFile := "../test-files/test.json"
 
-	// myYAMLFile := "../conversion/test.yml"
+	extensions := fileExts(yamlFile, jsonFile)
 
-	// assert.FileExists(myYAMLFile)
-	// testcli.Run("yamltojson convert ../conversion/test.yml output.json")
-	testSuite, err := cmdtest.Read("cli-tests/convert")
-	
+	assert.Equal(t, ".yml", extensions[0])
+	assert.Equal(t, ".json", extensions[1])
 }
+
+func TestWriteDataToFile(t *testing.T) {
+
+	assert := assert.New(t)
+
+	fileToRead := "../test-files/test.yml"
+
+	outputFile := "../test-files/dataOut.yaml"
+
+	yamlData, err := conversion.FullYAMLToJSON(fileToRead)
+	assert.Nil(err)
+
+	err = writeToFile(yamlData, outputFile)
+
+	assert.Nil(err)
+	t.Logf("data written to %s", outputFile)
+}
+
+// func TestCanReadPassedFile(t *testing.T) {
+// 	assert := assert.New(t)
+
+// 	myYAMLFile := "../conversion/test.yml"
+
+// 	data, err := readFileInArgs(myYAMLFile)
+// 	assert.Nil(err)
+
+// 	assert.IsType([]byte, data)
+
+
+// }
