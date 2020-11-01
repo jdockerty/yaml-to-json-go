@@ -17,7 +17,7 @@ func TestShouldCreateJSONFile(t *testing.T) {
 
 
 	assert.FileExists(jsonFileToCreate)
-	t.Logf("file created.\n")
+	t.Logf("JSON file created.\n")
 
 }
 
@@ -32,7 +32,7 @@ func TestShouldCreateYAMLFile(t *testing.T) {
 
 
 	assert.FileExists(yamlFileToCreate)
-	t.Logf("file created.\n")
+	t.Logf("YAML file created.\n")
 
 }
 
