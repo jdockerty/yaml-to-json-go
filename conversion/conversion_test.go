@@ -8,7 +8,7 @@ import (
 var localYAMLFile string
 
 func init() {
-	localYAMLFile = "test.yml"
+	localYAMLFile = "../test-files/test.yml"
 	// This file contains
 	//
 	// name: Jimmy
@@ -59,7 +59,7 @@ func TestOutputYamlIsCorrect(t *testing.T) {
 func TestFullConversionIsCorrect(t *testing.T) {
 	assert := assert.New(t)
 
-	jsonData, err := FullYAMLToJSON(localYAMLFile)
+	jsonData, err := YAMLToJSONFull(localYAMLFile)
 	assert.Nil(err)
 
 	var expectedType []byte
@@ -77,10 +77,13 @@ func TestConvertYamlToJSON(t *testing.T) {
 
 	t.Logf("%s\n", jsonOutput)
 	// Output:{
-	// "name": "Jimmy",
 	// "age": 29,
+	// "name": "Jimmy",
 	// "relationships": {
-	// "parents": ["Sally", "Robert"]
-	// }
+	// "parents": [
+	//	"Sally", 
+	//	"Robert"
+	//		]
+	// 	}
 	// }
 }
