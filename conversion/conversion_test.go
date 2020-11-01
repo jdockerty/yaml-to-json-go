@@ -60,7 +60,7 @@ func TestCanReadUnstructuredJSONFile(t *testing.T) {
 	assert.Nil(err)
 
 	expectedJSON := map[string]interface{}{
-		"age": float64(29),
+		"age":  float64(29),
 		"name": "Jimmy",
 		"relationships": map[string]interface{}{
 			"parents": []interface{}{"Sally", "Robert"},
@@ -95,7 +95,7 @@ func TestOutputJSONIsCorrect(t *testing.T) {
 	assert.Nil(err)
 
 	incorrectJSON := map[string]interface{}{
-		"age": float64(30),
+		"age":  float64(30),
 		"name": "Ricky",
 		"relationships": map[string]interface{}{
 			"parents": []interface{}{"Mike", "Robert"},
@@ -104,8 +104,6 @@ func TestOutputJSONIsCorrect(t *testing.T) {
 
 	assert.NotEqual(jsonData, incorrectJSON)
 }
-
-
 
 func TestFullYAMLConversionIsCorrect(t *testing.T) {
 	assert := assert.New(t)
@@ -138,20 +136,19 @@ func TestConvertYAMLToJSON(t *testing.T) {
 
 	var expectedType []byte
 	assert.IsType(expectedType, jsonOutput)
-	
+
 	t.Logf("%s\n", jsonOutput)
 	// Output:{
 	// "age": 29,
 	// "name": "Jimmy",
 	// "relationships": {
 	// "parents": [
-	//	"Sally", 
+	//	"Sally",
 	//	"Robert"
 	//		]
 	// 	}
 	// }
 }
-
 
 func TestConvertJSONToYAML(t *testing.T) {
 	assert := assert.New(t)

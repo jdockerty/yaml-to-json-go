@@ -1,8 +1,8 @@
 package conversion
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 
@@ -46,7 +46,6 @@ func UnmarshalJSONFile(filePath string) (map[string]interface{}, error) {
 	}
 
 	json.Unmarshal(fileData, &jsonData)
-
 
 	return jsonData, nil
 }

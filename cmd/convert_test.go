@@ -15,7 +15,6 @@ func TestShouldCreateJSONFile(t *testing.T) {
 	err := createOutputFile(jsonFileToCreate)
 	assert.Nil(err)
 
-
 	assert.FileExists(jsonFileToCreate)
 	t.Logf("JSON file created.\n")
 
@@ -29,7 +28,6 @@ func TestShouldCreateYAMLFile(t *testing.T) {
 
 	err := createOutputFile(yamlFileToCreate)
 	assert.Nil(err)
-
 
 	assert.FileExists(yamlFileToCreate)
 	t.Logf("YAML file created.\n")
@@ -73,6 +71,5 @@ func TestWriteDataToFile(t *testing.T) {
 // 	assert.Nil(err)
 
 // 	assert.IsType([]byte, data)
-
 
 // }
