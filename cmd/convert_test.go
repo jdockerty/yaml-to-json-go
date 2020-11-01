@@ -54,7 +54,7 @@ func TestWriteDataToFile(t *testing.T) {
 
 	outputFile := "../test-files/dataOut.yaml"
 
-	yamlData, err := conversion.FullYAMLToJSON(fileToRead)
+	yamlData, err := conversion.YAMLToJSONFull(fileToRead)
 	assert.Nil(err)
 
 	err = writeToFile(yamlData, outputFile)

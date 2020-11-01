@@ -70,9 +70,9 @@ func cleanYaml(yamlData map[interface{}]interface{}) map[string]interface{} {
 	return cleanYamlMapping
 }
 
-// FullYAMLToJSON is a wrapper function around the other underlying functions
+// YAMLToJSONFull is a wrapper function around the other underlying functions
 // for ease of use. Simply, a file is specified and the conversion is handled internally.
-func FullYAMLToJSON(filePath string) ([]byte, error) {
+func YAMLToJSONFull(filePath string) ([]byte, error) {
 
 	yamlData, err := UnmarshalYAMLFile(filePath)
 	if err != nil {
