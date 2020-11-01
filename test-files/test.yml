@@ -1,0 +1,6 @@
+name: Jimmy
+age: 29
+relationships:
+    parents:
+        - Sally
+        - Robert
