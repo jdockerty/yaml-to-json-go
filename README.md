@@ -14,6 +14,20 @@ Various other useful methods are available in the `conversion` package that help
 
 Can be used to retreive the packages if you have Go installed.
 
+## Install
+
+Installation is done by generating a executable binary from the Go source code.
+```
+git clone https://github.com/jdockerty/yaml-to-json-go.git
+cd yaml-to-json-go
+go build -o yamltojson
+sudo mv yamltojson /usr/local/bin
+```
+
+Or, if you have already cloned the repository and are currently within that directory.
+
+    make install
+
 ## Usage
 
 Converting YAML to JSON or JSON to YAML is simple in the CLI through the use of the `convert` sub-command.
