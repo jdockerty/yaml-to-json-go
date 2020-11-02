@@ -20,7 +20,7 @@ before_script:
 test-yamltojson:
     stage: test
     script:
-        - dep ensure
+        - go mod verify
         - go test -v -cover ./...
 
 build-yamltojson:
