@@ -1,7 +1,5 @@
 # Ignore local files for testing.
-*.json
-*.yml
-*.yaml
+test-files/
 
 # Ignore binary file.
 yamltojson
