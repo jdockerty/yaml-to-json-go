@@ -7,8 +7,8 @@ variables:
   GO_PROJECT: github.com/jdockerty/yaml-to-json-go
 
 stages:
-  - build
-  - test
+    - test
+    - build
 
 before_script:
   - mkdir -p ${GOPATH}/src/${GO_PROJECT}
@@ -17,7 +17,13 @@ before_script:
   - cp -r ${CI_PROJECT_DIR}/* ${GOPATH}/src/${GO_PROJECT}/
   - cd ${GOPATH}/src/${GO_PROJECT}
 
-build-projectname:
+test-yamltojson:
+stage: test
+script:
+    - dep ensure
+    - go test -v -cover ./...
+
+build-yamltojson:
   stage: build
   script:
     - dep ensure
@@ -26,8 +32,3 @@ build-projectname:
     paths:
       - ${ARTIFACTS_DIR}
 
-test-projectname:
-  stage: test
-  script:
-    - dep ensure
-    - go test -v -cover ./...
