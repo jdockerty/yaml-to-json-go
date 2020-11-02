@@ -42,9 +42,10 @@ func runConvertCmd(cmd *cobra.Command, args []string) error {
 
 		if len(args) == 1 {
 			return runConvertPrintFlag(args[0])
-		} else {
-			return fmt.Errorf("only a single file should be specific with the --print flag")
 		}
+
+		return fmt.Errorf("only a single file should be specific with the --print flag")
+
 	}
 	if len(args) != 2 {
 		return errors.New("you must only specify 2 files")
