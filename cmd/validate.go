@@ -11,12 +11,21 @@ import (
 var validateCmd = &cobra.Command{
 	Use:   "validate",
 	Short: "Validate a YAML or JSON file with this command.",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Long: `Quickly validate a list of YAML or JSON files. Be aware that there is no fancy implementation here, it is simply
+used to tell whether a file is considered valid enough to be parsed.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+The general concept is
+
+	yamltojson validate file1 file2 ...
+
+For example:
+
+	yamltojson validate myFile.yml anotherFile.yml
+	yamltojson validate yamlConfigs/*
+
+This also works with a mix of JSON and YAML files
+
+	yamltojson validate myfiles/* imports/data.json config.yml`,
 	RunE: runValidateCmd,
 }
 

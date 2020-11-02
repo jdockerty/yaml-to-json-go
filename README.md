@@ -50,3 +50,7 @@ This will read the source file and create/write to the target file specified. Fo
 If you do not want to write or create the target file, you can simple output the conversion to the console window.
 
     yamltojson convert --print a-nice-file.yml
+    
+There is also simple validation on a list of files. This simply tells you whether a JSON or YAML file is valid or not.
+
+    yamltojson validate path/to/config.json path/to/another/file.yml
