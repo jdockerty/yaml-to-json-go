@@ -9,6 +9,7 @@ variables:
 stages:
     - test
     - build
+    - deploy
 
 before_script:
     - mkdir -p ${GOPATH}/src/${GO_PROJECT}
@@ -26,8 +27,16 @@ test-yamltojson:
 build-yamltojson:
     stage: build
     script:
-        - go build -o ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}/${BIN_NAME}
+        - go build -o yamltojson
+        - zip -9 -r ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}/${BIN_NAME}.zip yamltojson
     artifacts:
         paths:
             - ${ARTIFACTS_DIR}
 
+
+upload-artifacts:
+    stage: deploy
+    image: python:latest
+    script:
+        - pip install awscli
+        - aws s3 cp ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}/${BIN_NAME}.zip s3://yaml-to-json-go
