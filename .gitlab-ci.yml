@@ -10,11 +10,6 @@ stages:
     - build
     - deploy
 
-before_script:
-    - mkdir -p ${GOPATH}/src/${GO_PROJECT}
-    - mkdir -p ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}
-    - cp -r ${CI_PROJECT_DIR}/* ${GOPATH}/src/${GO_PROJECT}/
-    - cd ${GOPATH}/src/${GO_PROJECT}
 
 test-yamltojson:
     stage: test
