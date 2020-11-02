@@ -23,6 +23,7 @@ build-yamltojson:
     script:
         - go mod download
         - go build -o artifacts/${BINARY_NAME}
+        - chmod +x artifacts/${BINARY_NAME}
     artifacts:
         paths:
             - artifacts/${BINARY_NAME}
