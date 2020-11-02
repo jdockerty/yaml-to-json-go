@@ -9,7 +9,7 @@ import (
 // validateCmd represents the validate command
 var validateCmd = &cobra.Command{
 	Use:   "validate",
-	Short: "Validate YAML or JSON files with this command",
+	Short: "Validate a YAML or JSON file with this command.",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
