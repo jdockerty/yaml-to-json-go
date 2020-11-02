@@ -18,13 +18,13 @@ var convertCmd = &cobra.Command{
 
 For example:
 
-	yamltojson convert myConfig.yml output.json
+	yamltojson convert path/to/myConfig.yml path/to/place/output.json
 
 This would convert the YAML file into JSON, since the YAML file is placed first. To do it the other way, swap them around
 
-	yamltojson convert output.json myConfig.yml
+	yamltojson convert path/to/output.json path/to/place/myConfig.yml
 
-This assumes that you have the first file specified at the location specified, the second file will be created with the conversion in the current directory.`,
+This assumes that you have the first file at the location specified, the second file will be created with the conversion in the current directory.`,
 	RunE: runConvertCmd,
 }
 
@@ -33,15 +33,6 @@ var PrintFlag bool
 
 func init() {
 	rootCmd.AddCommand(convertCmd)
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// convertCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// convertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	convertCmd.Flags().BoolVarP(&PrintFlag, "print", "p", false, "print the output to terminal, instead of writing to a target file.")
 }
 
