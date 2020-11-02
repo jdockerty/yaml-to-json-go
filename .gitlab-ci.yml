@@ -23,10 +23,11 @@ build-yamltojson:
     script:
         - go mod download
         - go build -o artifacts/${BINARY_NAME}
-        - chmod +x artifacts/${BINARY_NAME}
     artifacts:
         paths:
             - artifacts/${BINARY_NAME}
+    only:
+        - master
 
 
 upload-artifact:
@@ -35,3 +36,5 @@ upload-artifact:
     script:
         - pip install awscli
         - aws s3 cp artifacts/${BINARY_NAME} s3://yaml-to-json-go
+    only:
+        - master
