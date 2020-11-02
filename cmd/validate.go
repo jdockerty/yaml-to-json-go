@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/jdockerty/yaml-to-json-go/conversion"
 	"github.com/spf13/cobra"
 )
 
@@ -16,10 +17,46 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Println("validate called")
-		return nil
-	},
+	RunE: runValidateCmd,
+}
+
+func runValidateCmd(cmd *cobra.Command, args []string) error {
+
+	for _, file := range args {
+
+		if fileType := fileExt(file); fileType == ".yaml" || fileType == ".yml" {
+			data, err := conversion.UnmarshalYAMLFile(file)
+			if err != nil {
+				return err
+			}
+
+			if len(data) == 0 {
+				fmt.Printf("%s is invalid YAML.\n", file)
+				continue
+			}
+
+			fmt.Printf("%s is valid YAML.\n", file)
+
+		} else if fileType == ".json" {
+			data, err := conversion.UnmarshalJSONFile(file)
+			if err != nil {
+				return err
+			}
+
+			if len(data) == 0 {
+				fmt.Printf("%s is invalid JSON.\n", file)
+				continue
+			}
+
+			fmt.Printf("%s is valid JSON.\n", file)
+
+		} else {
+			return fmt.Errorf("%s is an invalid file, ensure the path is correct", file)
+
+		}
+	}
+
+	return nil
 }
 
 func init() {
