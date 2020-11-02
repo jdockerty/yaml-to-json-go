@@ -14,19 +14,20 @@ stages:
 before_script:
     - mkdir -p ${GOPATH}/src/${GO_PROJECT}
     - mkdir -p ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}
-    - go mod download
     - cp -r ${CI_PROJECT_DIR}/* ${GOPATH}/src/${GO_PROJECT}/
     - cd ${GOPATH}/src/${GO_PROJECT}
 
 test-yamltojson:
     stage: test
     script:
+        - go mod download
         - go mod verify
         - go test -v -cover ./...
 
 build-yamltojson:
     stage: build
     script:
+        - go mod download
         - go build -o yamltojson
     artifacts:
         paths:
