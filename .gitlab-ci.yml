@@ -28,6 +28,6 @@ build-yamltojson:
     script:
         - go build -o ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}/${BIN_NAME}
     artifacts:
-    paths:
-        - ${ARTIFACTS_DIR}
+        paths:
+            - ${ARTIFACTS_DIR}
 
