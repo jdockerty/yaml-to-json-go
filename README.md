@@ -16,11 +16,20 @@ Can be used to retreive the packages if you have Go installed.
 
 ## Install
 
-Installation is done by generating a executable binary from the Go source code.
+The easiest way to grab the binary file is from the provided S3 bucket.
+
+```
+wget https://yaml-to-json-go.s3.eu-west-2.amazonaws.com/yamltojson
+chmod +x yamltojson
+sudo mv yamltojson /usr/local/bin
+```
+
+Installation can also be done by generating an executable binary from the Go source code.
 ```
 git clone https://github.com/jdockerty/yaml-to-json-go.git
 cd yaml-to-json-go
 go build -o yamltojson
+chmod +x yamltojson
 sudo mv yamltojson /usr/local/bin
 ```
 

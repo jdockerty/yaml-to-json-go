@@ -9,4 +9,5 @@ build: format
 
 install:
 	go build -o yamltojson
+	chmod +x yamltojson
 	sudo mv yamltojson /usr/local/bin

@@ -3,7 +3,6 @@ image: golang:1.15
 
 variables:
     BINARY_NAME: yamltojson
-    ARTIFACTS_DIR: artifacts
     GO_PROJECT: github.com/jdockerty/yaml-to-json-go
 
 stages:
@@ -11,11 +10,6 @@ stages:
     - build
     - deploy
 
-before_script:
-    - mkdir -p ${GOPATH}/src/${GO_PROJECT}
-    - mkdir -p ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}
-    - cp -r ${CI_PROJECT_DIR}/* ${GOPATH}/src/${GO_PROJECT}/
-    - cd ${GOPATH}/src/${GO_PROJECT}
 
 test-yamltojson:
     stage: test
@@ -28,10 +22,12 @@ build-yamltojson:
     stage: build
     script:
         - go mod download
-        - go build -o ${ARTIFACTS_DIR}/${BINARY_NAME}
+        - go build -o artifacts/${BINARY_NAME}
     artifacts:
         paths:
-            - ${ARTIFACTS_DIR}/${BINARY_NAME}
+            - artifacts/${BINARY_NAME}
+    only:
+        - master
 
 
 upload-artifact:
@@ -39,4 +35,6 @@ upload-artifact:
     image: python:latest
     script:
         - pip install awscli
-        - aws s3 cp ${ARTIFACTS_DIR}/${BINARY_NAME} s3://yaml-to-json-go
+        - aws s3 cp artifacts/${BINARY_NAME} s3://yaml-to-json-go
+    only:
+        - master
