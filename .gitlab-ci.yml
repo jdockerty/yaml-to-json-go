@@ -1,0 +1,40 @@
+# Replace "projectname" and "username"
+image: golang:1.15
+
+variables:
+    BINARY_NAME: yamltojson
+    GO_PROJECT: github.com/jdockerty/yaml-to-json-go
+
+stages:
+    - test
+    - build
+    - deploy
+
+
+test-yamltojson:
+    stage: test
+    script:
+        - go mod download
+        - go mod verify
+        - go test -v -cover ./...
+
+build-yamltojson:
+    stage: build
+    script:
+        - go mod download
+        - go build -o artifacts/${BINARY_NAME}
+    artifacts:
+        paths:
+            - artifacts/${BINARY_NAME}
+    only:
+        - master
+
+
+upload-artifact:
+    stage: deploy
+    image: python:latest
+    script:
+        - pip install awscli
+        - aws s3 cp artifacts/${BINARY_NAME} s3://yaml-to-json-go
+    only:
+        - master
