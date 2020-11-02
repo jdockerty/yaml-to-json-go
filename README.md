@@ -16,10 +16,11 @@ Can be used to retreive the packages if you have Go installed.
 
 ## Install
 
-The easiest way to grab the binary file from the provided S3 bucket.
+The easiest way to grab the binary file is from the provided S3 bucket.
 
 ```
 wget https://yaml-to-json-go.s3.eu-west-2.amazonaws.com/yamltojson
+chmod +x yamltojson
 sudo mv yamltojson /usr/local/bin
 ```
 
