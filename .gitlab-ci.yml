@@ -39,4 +39,4 @@ upload-artifacts:
     image: python:latest
     script:
         - pip install awscli
-        - aws s3 cp ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}/${BIN_NAME}.zip s3://yaml-to-json-go
+        - aws s3 cp ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}/${BIN_NAME} s3://yaml-to-json-go
