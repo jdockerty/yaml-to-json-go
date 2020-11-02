@@ -34,7 +34,7 @@ build-yamltojson:
             - ${ARTIFACTS_DIR}
 
 
-upload-artifacts:
+upload-artifact:
     stage: deploy
     image: python:latest
     script:
