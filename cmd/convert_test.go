@@ -61,4 +61,3 @@ func TestWriteDataToFile(t *testing.T) {
 	assert.Nil(err)
 	t.Logf("data written to %s", outputFile)
 }
-
