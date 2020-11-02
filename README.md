@@ -50,7 +50,3 @@ This will read the source file and create/write to the target file specified. Fo
 If you do not want to write or create the target file, you can simple output the conversion to the console window.
 
     yamltojson convert --print a-nice-file.yml
-
-## TODO
-
-* Add a `validate` sub-command which piggybacks from conversion, load yaml/json file to test its validity.
