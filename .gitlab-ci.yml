@@ -31,7 +31,7 @@ build-yamltojson:
         - go build -o yamltojson
     artifacts:
         paths:
-            - ${ARTIFACTS_DIR}
+            - ${BIN_NAME}
 
 
 upload-artifact:
@@ -39,4 +39,4 @@ upload-artifact:
     image: python:latest
     script:
         - pip install awscli
-        - aws s3 cp ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}/${BIN_NAME} s3://yaml-to-json-go
+        - aws s3 cp ${ARTIFACTS_DIR}/${BIN_NAME} s3://yaml-to-json-go
