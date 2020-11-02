@@ -28,7 +28,6 @@ build-yamltojson:
     stage: build
     script:
         - go build -o yamltojson
-        - zip -9 -r ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}/${BIN_NAME}.zip yamltojson
     artifacts:
         paths:
             - ${ARTIFACTS_DIR}
