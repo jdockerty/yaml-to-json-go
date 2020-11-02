@@ -38,7 +38,7 @@ func Execute() int {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
+	cobra.OnInitialize(initConfig) // Leave in incase it is ever needed for future.
 }
 
 // initConfig reads in config file and ENV variables if set.
