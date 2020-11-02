@@ -3,6 +3,8 @@
 A small CLI application that lets you convert a YAML file into a JSON file or the other way around, depending on which you specify as the source.
 You can also print out the result to the console, rather than specifying a target file in which to place the result.
 
+Simple validation is also supported, based on whether the file was valid enough to be parsed into the program.
+
 The supported extensions are:
 * `.yaml`
 * `.yml`
