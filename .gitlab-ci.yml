@@ -23,6 +23,7 @@ build-yamltojson:
     stage: build
     script:
         - go mod download
+        - apk add zip
         - make zip
         - mv ${ZIP_FILE} artifacts/
     artifacts:
