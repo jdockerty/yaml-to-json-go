@@ -12,7 +12,7 @@ The supported extensions are:
 
 Various other useful methods are available in the `conversion` package that help when dealing with unstructured JSON or YAML. This may be useful when dealing with YAML or JSON in a programmatic sense.
 
-    go get -u github.com/jdockerty/yaml-to-json-go
+    go get -u github.com/jdockerty/yaml-to-json-go/conversion
 
 Can be used to retreive the packages if you have Go installed.
 
