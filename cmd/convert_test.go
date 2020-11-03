@@ -34,7 +34,6 @@ func TestShouldCreateYAMLFile(t *testing.T) {
 
 }
 
-
 func TestWriteDataToFile(t *testing.T) {
 
 	assert := assert.New(t)
@@ -50,4 +49,21 @@ func TestWriteDataToFile(t *testing.T) {
 
 	assert.Nil(err)
 	t.Logf("data written to %s", outputFile)
+}
+
+func TestDirectoryExists(t *testing.T) {
+
+	assert := assert.New(t)
+
+	nonExistentDir := "some/crazy/directory/in/space"
+	dirDoesNotExist, err := dirExists(nonExistentDir)
+	t.Logf("%s exists: %t\n", nonExistentDir, dirDoesNotExist)
+	assert.Nil(err)
+	assert.Equal(false, dirDoesNotExist)
+
+	existingDir := "../conversion/"
+	directoryExists, err := dirExists(existingDir)
+	t.Logf("%s exists: %t\n", existingDir, directoryExists)
+	assert.Nil(err)
+	assert.Equal(true, directoryExists)
 }
