@@ -31,8 +31,9 @@ This also works with a mix of JSON and YAML files
 func runValidateCmd(cmd *cobra.Command, args []string) error {
 
 	for _, file := range args {
-
-		if fileType := fileExt(file); fileType == ".yaml" || fileType == ".yml" {
+		isYAML := conversion.IsYAMLFile(file)
+		isJSON := conversion.IsJSONFile(file)
+		if isYAML {
 			data, err := conversion.UnmarshalYAMLFile(file)
 			if err != nil {
 				return err
@@ -45,7 +46,7 @@ func runValidateCmd(cmd *cobra.Command, args []string) error {
 
 			fmt.Printf("%s is valid YAML.\n", file)
 
-		} else if fileType == ".json" {
+		} else if isJSON {
 			data, err := conversion.UnmarshalJSONFile(file)
 			if err != nil {
 				return err
