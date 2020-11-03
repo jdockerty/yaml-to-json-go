@@ -1,6 +1,7 @@
 package conversion
 
 import (
+	"path/filepath"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -146,4 +147,28 @@ func JSONToYAMLFull(filePath string) ([]byte, error) {
 	}
 
 	return yamlOutput, nil
+}
+
+// IsJSONFile checks whether a specified file is JSON.
+func IsJSONFile(filePath string) bool {
+
+	fileType := filepath.Ext(filePath)
+
+	if fileType == ".json" {
+		return true
+	}
+
+	return false
+}
+
+// IsYAMLFile checks whether a specified file is YAML.
+func IsYAMLFile(filePath string) bool {
+
+	fileType := filepath.Ext(filePath)
+
+	if fileType == ".yml" || fileType == ".yaml" {
+		return true
+	}
+
+	return false
 }
