@@ -34,16 +34,6 @@ func TestShouldCreateYAMLFile(t *testing.T) {
 
 }
 
-func TestCorrectFileExtensions(t *testing.T) {
-	yamlFile := "../test-files/test.yml"
-	jsonFile := "../test-files/test.json"
-
-	extensionYAML := fileExt(yamlFile)
-	extensionJSON := fileExt(jsonFile)
-
-	assert.Equal(t, ".yml", extensionYAML)
-	assert.Equal(t, ".json", extensionJSON)
-}
 
 func TestWriteDataToFile(t *testing.T) {
 
