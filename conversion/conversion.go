@@ -1,11 +1,11 @@
 package conversion
 
 import (
-	"path/filepath"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 
 	"gopkg.in/yaml.v2"
 )
