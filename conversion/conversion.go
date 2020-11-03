@@ -86,12 +86,24 @@ func cleanYaml(yamlData map[interface{}]interface{}) map[string]interface{} {
 		assertedKey := key.(string)
 		cleanYamlMapping[assertedKey] = value
 
-		assertedVal, isType := value.(map[interface{}]interface{})
+		assertedMapVal, isInterfaceMapType := value.(map[interface{}]interface{})
+		assertedSliceVal, isInterfaceSliceType := value.([]interface{})
 
 		// If the value is also another map, then you need to retreive that value, adding it into the outer map.
-		if isType {
-			cleanInnerMap := cleanYaml(assertedVal)
+		if isInterfaceMapType {
+			cleanInnerMap := cleanYaml(assertedMapVal)
 			cleanYamlMapping[assertedKey] = cleanInnerMap
+		}
+
+		if isInterfaceSliceType {
+			for _, v := range assertedSliceVal {
+				itemVal, isInnerMap := v.(map[interface{}]interface{})
+				if isInnerMap {
+					cleanMapping := cleanYaml(itemVal)
+					cleanYamlMapping[assertedKey] = cleanMapping
+				}
+			}
+			// cleanYamlMapping[assertedKey] = cleanInnerMap
 		}
 	}
 
