@@ -27,13 +27,14 @@ This would convert the YAML file into JSON, since the YAML file is placed first.
 
 This assumes that you have the first file at the location specified, the second file will be created with the conversion in the current directory.
 
-You can convert a full directory using the --directory or -d flag, although the output directory DOES NOT preserve the structure. This works best when the directory contains all of the same type, e.g. all JSON files.
+You can convert a full directory using the --directory or -d flag, although the output directory DOES NOT preserve the structure, in other words, this will work recursively, but will not generate the same folders in the output directory. This works best when the directory contains all of the same type, such as all JSON files.
 	
-	yamltojson convert --directory="source-dir,target-dir"
-	yamltojson convert --directory="many-json-files-here/,/home/jimmy/work/configs/"
+	yamltojson convert --directory="<source_directory>,<target_directory>"
+
+	yamltojson convert --directory="./data/yaml-configs,/home/jimmy/work/json-configs/"
 
 This converts all of the files within the directory to their corresponding counterpart, as such JSON will convert to YAML and YAML to JSON.
-Remember to specify the source and target directory without a space, separated by a comma. `,
+Remember to specify the source and target directory without a space, separated by a comma.`,
 	RunE: runConvertCmd,
 }
 
