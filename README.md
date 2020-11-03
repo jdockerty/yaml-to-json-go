@@ -43,7 +43,7 @@ Or, if you have already cloned the repository and are currently within that dire
 
 Converting YAML to JSON or JSON to YAML is simple in the CLI through the use of the `convert` sub-command.
 
-    yamltojson convert <path/to/source_file> <path/to/target_file>
+    yamltojson convert <path/to/source_file> <output_filename>
 
 This will read the source file and create/write to the target file specified. For example:
 
@@ -52,7 +52,11 @@ This will read the source file and create/write to the target file specified. Fo
 If you do not want to write or create the target file, you can simple output the conversion to the console window.
 
     yamltojson convert --print a-nice-file.yml
-    
+
+A full directory can be converted with the `--directory` or `-d` flag too, although this works best when all of the containing files within the directory are of the same type, such as converting a folder full of JSON files into YAML.
+
+    yamltojson convert --directory="<path/to/json-files/>,<output_directory>"
+
 There is also simple validation on a list of files. This simply tells you whether a JSON or YAML file is valid or not.
 
     yamltojson validate path/to/config.json path/to/another/file.yml
