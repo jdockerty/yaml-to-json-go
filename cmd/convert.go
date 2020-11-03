@@ -27,11 +27,13 @@ This would convert the YAML file into JSON, since the YAML file is placed first.
 
 This assumes that you have the first file at the location specified, the second file will be created with the conversion in the current directory.
 
-You can convert a full directory using the --directory or -d flag, although the output directory does not preserve the structure. This works best when the directory contains all of the same type, e.g. all JSON files.
+You can convert a full directory using the --directory or -d flag, although the output directory DOES NOT preserve the structure. This works best when the directory contains all of the same type, e.g. all JSON files.
 	
-	yamltojson convert --directory="many-json-files-here/,/home/jimmy/work/configs/
+	yamltojson convert --directory="source-dir,target-dir"
+	yamltojson convert --directory="many-json-files-here/,/home/jimmy/work/configs/"
 
-This converts all of the files within the directory to their corresponding counterpart, as such JSON will convert to YAML and YAML to JSON.`,
+This converts all of the files within the directory to their corresponding counterpart, as such JSON will convert to YAML and YAML to JSON.
+Remember to specify the source and target directory without a space, separated by a comma. `,
 	RunE: runConvertCmd,
 }
 
@@ -121,7 +123,7 @@ func runConvertDirFlag(args []string) error {
 	}
 
 	for _, file := range files {
-		
+
 		isJSON := conversion.IsJSONFile(file)
 		isYAML := conversion.IsYAMLFile(file)
 
