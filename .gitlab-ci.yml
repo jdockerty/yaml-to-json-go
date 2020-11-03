@@ -22,7 +22,9 @@ test-yamltojson:
 build-yamltojson:
     stage: build
     script:
-        - go mod download
+        - go mod download -x
+        - apt-get update -y 
+        - apt-get install zip -y
         - make zip
         - mv ${ZIP_FILE} artifacts/
     artifacts:
