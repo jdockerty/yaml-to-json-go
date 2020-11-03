@@ -95,15 +95,19 @@ func cleanYaml(yamlData map[interface{}]interface{}) map[string]interface{} {
 			cleanYamlMapping[assertedKey] = cleanInnerMap
 		}
 
+		// If the item is a interface slice, we need to check whether it contains a map[interface{}]interface{} type, if so we can convert it.
 		if isInterfaceSliceType {
-			for _, v := range assertedSliceVal {
-				itemVal, isInnerMap := v.(map[interface{}]interface{})
+			for _, item := range assertedSliceVal {
+
+				itemAsserted, isInnerMap := item.(map[interface{}]interface{})
+
 				if isInnerMap {
-					cleanMapping := cleanYaml(itemVal)
-					cleanYamlMapping[assertedKey] = cleanMapping
+					cleanInnerMap := cleanYaml(itemAsserted)
+					cleanYamlMapping[assertedKey] = cleanInnerMap
 				}
+
 			}
-			// cleanYamlMapping[assertedKey] = cleanInnerMap
+
 		}
 	}
 
