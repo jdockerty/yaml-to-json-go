@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // convertCmd represents the convert command
@@ -24,16 +25,30 @@ This would convert the YAML file into JSON, since the YAML file is placed first.
 
 	yamltojson convert path/to/output.json path/to/place/myConfig.yml
 
-This assumes that you have the first file at the location specified, the second file will be created with the conversion in the current directory.`,
+This assumes that you have the first file at the location specified, the second file will be created with the conversion in the current directory.
+
+You can convert a full directory using the --directory or -d flag, although the output directory DOES NOT preserve the structure, in other words, this will work recursively, but will not generate the same folders in the output directory. This works best when the directory contains all of the same type, such as all JSON files.
+	
+	yamltojson convert --directory="<source_directory>,<target_directory>"
+
+	yamltojson convert --directory="./data/yaml-configs,/home/jimmy/work/json-configs/"
+
+This converts all of the files within the directory to their corresponding counterpart, as such JSON will convert to YAML and YAML to JSON.
+Remember to specify the source and target directory without a space, separated by a comma.`,
 	RunE: runConvertCmd,
 }
 
 // PrintFlag is the --print or -p flag to print the output to the terminal, rather than writing to a file.
 var PrintFlag bool
 
+// DirectoryFlag is the --directory or -d flag. This is used to specify a directory containing files to convert and the output directory.
+var DirectoryFlag []string
+
 func init() {
 	rootCmd.AddCommand(convertCmd)
 	convertCmd.Flags().BoolVarP(&PrintFlag, "print", "p", false, "print the output to terminal, instead of writing to a target file.")
+	convertCmd.Flags().StringSliceVarP(&DirectoryFlag, "directory", "d", []string{}, "specify a directory containing all YAML or all JSON files.")
+
 }
 
 func runConvertCmd(cmd *cobra.Command, args []string) error {
@@ -46,7 +61,16 @@ func runConvertCmd(cmd *cobra.Command, args []string) error {
 
 		return fmt.Errorf("only a single file should be specific with the --print flag")
 
+	} else if len(DirectoryFlag) != 0 {
+
+		if len(DirectoryFlag) == 2 {
+			return runConvertDirFlag(DirectoryFlag)
+		}
+
+		return fmt.Errorf("flag should be specified in the form: --directory='sourceDir, targetDir'")
+
 	}
+
 	if len(args) != 2 {
 		return errors.New("you must only specify 2 files")
 	}
@@ -55,9 +79,87 @@ func runConvertCmd(cmd *cobra.Command, args []string) error {
 
 }
 
+func filePathWalkDir(root string) ([]string, error) {
+	var files []string
+	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+
+		isNotDirectory := !info.IsDir()
+		if isNotDirectory {
+			files = append(files, path)
+		}
+
+		return nil
+	})
+
+	return files, err
+
+}
+
+// exists returns whether the given file or directory exists
+func dirExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
+}
+
+func runConvertDirFlag(args []string) error {
+	sourceDir := args[0]
+	destDir := args[1]
+
+	directoryExists, _ := dirExists(destDir)
+
+	// If the directory does NOT (!) exist, return an error.
+	if !directoryExists {
+		return fmt.Errorf("the target directory must exist in order to write the files")
+	}
+
+	files, err := filePathWalkDir(sourceDir)
+	if err != nil {
+		return err
+	}
+
+	for _, file := range files {
+
+		isJSON := conversion.IsJSONFile(file)
+		isYAML := conversion.IsYAMLFile(file)
+
+		fullFileName := filepath.Base(file)
+		fileName := strings.TrimSuffix(fullFileName, filepath.Ext(fullFileName))
+
+		if isJSON {
+			filePath := fmt.Sprintf("%s/%s.yml", destDir, fileName)
+
+			yamlOutput, err := conversion.JSONToYAMLFull(file)
+			if err != nil {
+				return err
+			}
+
+			writeToFile(yamlOutput, filePath)
+			fmt.Printf("Converted %s to YAML\n", file)
+
+		} else if isYAML {
+			filePath := fmt.Sprintf("%s/%s.json", destDir, fileName)
+			jsonOutput, err := conversion.YAMLToJSONFull(file)
+			if err != nil {
+				return err
+			}
+			writeToFile(jsonOutput, filePath)
+			fmt.Printf("Converted %s to JSON\n", file)
+		}
+
+	}
+
+	return nil
+}
+
 func runConvertPrintFlag(file string) error {
 
-	if fileType := fileExt(file); fileType == ".yaml" || fileType == ".yml" {
+	if conversion.IsYAMLFile(file) {
 
 		jsonOutput, err := conversion.YAMLToJSONFull(file)
 		if err != nil {
@@ -65,7 +167,7 @@ func runConvertPrintFlag(file string) error {
 		}
 
 		fmt.Printf("%s\n", string(jsonOutput))
-	} else if fileType == ".json" {
+	} else if conversion.IsJSONFile(file) {
 
 		yamlOutput, err := conversion.JSONToYAMLFull(file)
 		if err != nil {
@@ -90,10 +192,6 @@ func createOutputFile(f string) error {
 	return nil
 }
 
-func fileExt(file string) string {
-	return filepath.Ext(file)
-}
-
 func runConvert(args []string) error {
 	sourceFile, targetFile := args[0], args[1]
 
@@ -102,7 +200,9 @@ func runConvert(args []string) error {
 		return err
 	}
 
-	if fileType := fileExt(sourceFile); fileType == ".yml" || fileType == ".yaml" {
+	isYAML := conversion.IsYAMLFile(sourceFile)
+	isJSON := conversion.IsJSONFile(sourceFile)
+	if isYAML {
 
 		jsonData, err := conversion.YAMLToJSONFull(sourceFile)
 		if err != nil {
@@ -116,7 +216,7 @@ func runConvert(args []string) error {
 
 		fmt.Printf("Converting %s to %s\n", sourceFile, targetFile)
 
-	} else if fileType == ".json" {
+	} else if isJSON {
 
 		yamlData, err := conversion.JSONToYAMLFull(sourceFile)
 		if err != nil {

@@ -160,3 +160,22 @@ func TestConvertJSONToYAML(t *testing.T) {
 
 	t.Logf("\n%s", yamlOutput)
 }
+
+func TestCorrectFileExtension(t *testing.T) {
+	assert := assert.New(t)
+
+	yamlFile := "my/random/file.yml"
+	jsonFile := "anotherFile.json"
+
+	correctExtYAML := IsYAMLFile(yamlFile)
+	incorrectExtYAML := IsJSONFile(yamlFile)
+
+	assert.Equal(true, correctExtYAML)
+	assert.Equal(false, incorrectExtYAML)
+
+	correctExtJSON := IsJSONFile(jsonFile)
+	incorrectExtJSON := IsYAMLFile(jsonFile)
+
+	assert.Equal(true, correctExtJSON)
+	assert.Equal(false, incorrectExtJSON)
+}

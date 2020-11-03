@@ -34,17 +34,6 @@ func TestShouldCreateYAMLFile(t *testing.T) {
 
 }
 
-func TestCorrectFileExtensions(t *testing.T) {
-	yamlFile := "../test-files/test.yml"
-	jsonFile := "../test-files/test.json"
-
-	extensionYAML := fileExt(yamlFile)
-	extensionJSON := fileExt(jsonFile)
-
-	assert.Equal(t, ".yml", extensionYAML)
-	assert.Equal(t, ".json", extensionJSON)
-}
-
 func TestWriteDataToFile(t *testing.T) {
 
 	assert := assert.New(t)
@@ -60,4 +49,21 @@ func TestWriteDataToFile(t *testing.T) {
 
 	assert.Nil(err)
 	t.Logf("data written to %s", outputFile)
+}
+
+func TestDirectoryExists(t *testing.T) {
+
+	assert := assert.New(t)
+
+	nonExistentDir := "some/crazy/directory/in/space"
+	dirDoesNotExist, err := dirExists(nonExistentDir)
+	t.Logf("%s exists: %t\n", nonExistentDir, dirDoesNotExist)
+	assert.Nil(err)
+	assert.Equal(false, dirDoesNotExist)
+
+	existingDir := "../conversion/"
+	directoryExists, err := dirExists(existingDir)
+	t.Logf("%s exists: %t\n", existingDir, directoryExists)
+	assert.Nil(err)
+	assert.Equal(true, directoryExists)
 }
