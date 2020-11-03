@@ -11,8 +11,7 @@ import (
 var validateCmd = &cobra.Command{
 	Use:   "validate",
 	Short: "Validate a YAML or JSON file with this command.",
-	Long: `Quickly validate a list of YAML or JSON files. Be aware that there is no fancy implementation here, it is simply
-used to tell whether a file is considered valid enough to be parsed.
+	Long: `Quickly validate a list of YAML or JSON files. Be aware that there is no fancy implementation here, it is simply used to tell whether a file is considered valid enough to be parsed.
 
 The general concept is
 
